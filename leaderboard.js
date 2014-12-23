@@ -19,6 +19,11 @@
         return "Some other function";
       }
     });
+    Template.leaderboard.events({
+      'click': function() {
+        return alert("haha, funny how?");
+      }
+    });
   }
 
   if (Meteor.isServer) {

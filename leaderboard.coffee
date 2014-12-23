@@ -15,6 +15,11 @@ if Meteor.isClient
 				return "Some other function"
 		})
 		
+	Template.leaderboard.events({
+			'click': ->
+				# code here
+				alert "haha, funny how?"
+		})
 	
 if Meteor.isServer
 	console.log "Haha. We whipped em agin Josey!"
