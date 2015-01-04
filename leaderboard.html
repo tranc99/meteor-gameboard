@@ -11,10 +11,14 @@
 
 <template name="leaderboard">
 	<ul>
+		<input type="button" class="increment" value="Give 5 Points">
+		<input type="button" class="decrement" value="Take 5 Points">		
 		{{#each player}}
-			<li>{{name}}: {{score}}</li>
+			<li class="player {{selectedClass}}">{{name}}: {{score}}</li>
 			<br>
 		{{/each}}
+		{{#if showSelectedPlayer}}
+			<li>Selected {{showSelectedPlayer.name}}</li>
+		{{/if}}
 	</ul>
-	{{otherHelperFunction}}
 </template>

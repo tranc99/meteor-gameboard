@@ -13,15 +13,53 @@
     console.log("All of my pajamas");
     Template.leaderboard.helpers({
       'player': function() {
-        return PlayersList.find();
+        return PlayersList.find({}, {
+          sort: {
+            score: -1,
+            name: 1
+          }
+        });
       },
       'otherHelperFunction': function() {
         return "Some other function";
+      },
+      'selectedClass': function() {
+        var playerId, selectedPlayer;
+        playerId = this._id;
+        selectedPlayer = Session.get('selectedPlayer');
+        if (playerId === selectedPlayer) {
+          return "selected";
+        }
+      },
+      'showSelectedPlayer': function() {
+        var selectedPlayer;
+        selectedPlayer = Session.get('selectedPlayer');
+        return PlayersList.findOne(selectedPlayer);
       }
     });
     Template.leaderboard.events({
-      'click': function() {
-        return alert("haha, funny how?");
+      'click .player': function() {
+        var playerId;
+        playerId = this._id;
+        return Session.set("selectedPlayer", playerId);
+      },
+      'click .increment': function() {
+        var selectedPlayer;
+        selectedPlayer = Session.get('selectedPlayer');
+        return PlayersList.update(selectedPlayer, {
+          $inc: {
+            score: 5
+          }
+        });
+      },
+      'click .decrement': function() {
+        var selectedPlayer;
+        selectedPlayer = Session.get('selectedPlayer');
+        return PlayersList.update(selectedPlayer, {
+          $inc: {
+            score: -5
+          }
+        });
       }
     });
   }

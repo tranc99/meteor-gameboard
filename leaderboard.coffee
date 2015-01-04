@@ -9,16 +9,32 @@ if Meteor.isClient
 	console.log "All of my pajamas"
 	Template.leaderboard.helpers({
 			'player': ->
-				return PlayersList.find()
+				return PlayersList.find({}, {sort: {score: -1, name: 1} })
 			
 			,'otherHelperFunction': ->
 				return "Some other function"
+			
+			,'selectedClass': ->
+				playerId = this._id
+				selectedPlayer = Session.get 'selectedPlayer'
+				if playerId == selectedPlayer
+					"selected"
+			
+			,'showSelectedPlayer': ->
+				selectedPlayer = Session.get 'selectedPlayer'
+				PlayersList.findOne selectedPlayer
 		})
 		
 	Template.leaderboard.events({
-			'click': ->
-				# code here
-				alert "haha, funny how?"
+			'click .player': ->				
+				playerId = this._id
+				Session.set "selectedPlayer", playerId
+			,'click .increment': ->
+				selectedPlayer = Session.get 'selectedPlayer'
+				PlayersList.update(selectedPlayer, {$inc: {score: 5}})
+			,'click .decrement': ->
+				selectedPlayer = Session.get 'selectedPlayer'
+				PlayersList.update(selectedPlayer, {$inc: {score: -5}})			
 		})
 	
 if Meteor.isServer
