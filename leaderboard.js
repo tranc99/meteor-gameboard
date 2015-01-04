@@ -60,6 +60,23 @@
             score: -5
           }
         });
+      },
+      'click .remove': function() {
+        var selectedPlayer;
+        selectedPlayer = Session.get('selectedPlayer');
+        PlayersList.remove(selectedPlayer);
+        return alert("Aye aye sir, tossed to Davvy Jones' locker!");
+      }
+    });
+    Template.addPlayerForm.events({
+      'submit form': function(event) {
+        var playerNameVar;
+        event.preventDefault();
+        playerNameVar = event.target.playerName;
+        return PlayersList.insert({
+          name: playerNameVar.value,
+          score: 0
+        });
       }
     });
   }

@@ -35,6 +35,18 @@ if Meteor.isClient
 			,'click .decrement': ->
 				selectedPlayer = Session.get 'selectedPlayer'
 				PlayersList.update(selectedPlayer, {$inc: {score: -5}})			
+			,'click .remove': ->
+				selectedPlayer = Session.get 'selectedPlayer'
+				PlayersList.remove selectedPlayer
+				alert "Aye aye sir, tossed to Davvy Jones' locker!"
+		})
+	
+	Template.addPlayerForm.events({
+			'submit form': (event)->
+				event.preventDefault()
+				playerNameVar = event.target.playerName
+				PlayersList.insert({name: playerNameVar.value, score: 0})
+		
 		})
 	
 if Meteor.isServer
